@@ -51,6 +51,10 @@ public class User extends AbstractEntity<Long> {
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 

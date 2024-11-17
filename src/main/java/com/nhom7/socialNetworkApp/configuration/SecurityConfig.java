@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(requests -> {
                     requests
-                            //.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                            //.requestMatchers().permitAll()
                             .anyRequest().permitAll();
                 });
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
