@@ -5,6 +5,7 @@ import com.nhom7.socialNetworkApp.entity.notification.Notification;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class User extends AbstractEntity<Long> {
 
     @Column(name = "password")
     private String password;
+    
+    @Column(name = "otp")
+    private String otp;
+    @Column(name = "otpGeneratedTime")
+    private LocalDateTime otpGeneratedTime;
 
     @Column(name = "avatar")
     private String avatar;
