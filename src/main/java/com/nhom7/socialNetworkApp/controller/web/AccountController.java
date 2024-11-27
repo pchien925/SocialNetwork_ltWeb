@@ -1,24 +1,35 @@
 package com.nhom7.socialNetworkApp.controller.web;
 
+import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nhom7.socialNetworkApp.entity.Message;
-import com.nhom7.socialNetworkApp.entity.Role;
-import com.nhom7.socialNetworkApp.entity.Status;
 import com.nhom7.socialNetworkApp.entity.User;
+import com.nhom7.socialNetworkApp.model.ProfileModel;
 import com.nhom7.socialNetworkApp.model.UserModel;
 import com.nhom7.socialNetworkApp.services.IUserService;
 
@@ -27,8 +38,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-
 
 
 @Controller
@@ -37,7 +46,20 @@ public class AccountController extends HttpServlet {
 	static final long serialVersionUID = 1L;
 	@Autowired
 	private IUserService userService;
-
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    setValue(sdf.parse(text)); // Chuyển từ String thành java.util.Date
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd.", e);
+                }
+            }
+        });
+    }
 	
 	@GetMapping("/register")
 	public String Register()
@@ -79,6 +101,21 @@ public class AccountController extends HttpServlet {
 	    String message=userService.verifyAccount(email, otp);
 	    model.addAttribute("message",message);
 	    return "confirmOTP"; 
+	}
+	@GetMapping("/profile/{id}") 
+	public ModelAndView profile(ModelMap model,
+			@PathVariable("id") Long userId){
+		Optional<User> optUser=userService.findById(userId);
+		ProfileModel profileModel=new ProfileModel();
+		if(optUser.isPresent())
+		{
+			User entity=optUser.get();
+			BeanUtils.copyProperties(entity, profileModel);
+			model.addAttribute("profile",profileModel);	
+			return new ModelAndView("/web/profile",model);
+		}
+		model.addAttribute("message","User is not existed!!!");	
+		return new ModelAndView("forward:/web/home",model);
 	}
 
 	@PostMapping("/addUser")
@@ -136,9 +173,48 @@ public class AccountController extends HttpServlet {
 	    model.addAttribute("message",message);
 	    return new ModelAndView("redirect:/login", model);
 	}
+	@RequestMapping("/friends")
+	public String all(Model model) {
+		List<User> list = userService.findAll();
+		model.addAttribute("listuser", list);
+		System.out.println(list.size());
+		return "web/user-list";
+	}
+	@RequestMapping("/searchpaginated")
+	public String search(ModelMap model, @RequestParam(name = "name", required = false) String name,
+	        @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+	    int count = (int) userService.count();
+	    int currentPage = page.orElse(1);
+	    int pageSize = size.orElse(3);
+	    // Sử dụng 'name' thay vì 'categoryName' ở đây
+	   // Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("name"));
+	    Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+	    Page<User> resultPage = null;
+	    
+	    if (StringUtils.hasText(name)) {
+	        resultPage = userService.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, pageable);
+	        model.addAttribute("name", name);
+	    } else {
+	        resultPage = userService.findAll(pageable);
+	    }
+	    
+	    int totalPages = resultPage.getTotalPages();
+	    if (totalPages > 0) {
+	        int start = Math.max(1, currentPage - 2);
+	        int end = Math.min(currentPage + 2, totalPages);
+	        if (totalPages > count) {
+	            if (end == totalPages)
+	                start = end - count;
+	            else if (start == 1)
+	                end = start + count;
+	        }
+	        List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+	        System.out.println(pageNumbers.size());
+	        model.addAttribute("pageNumbers", pageNumbers);
+	    }
+	    
+	    model.addAttribute("userPage", resultPage);
+	    return "web/user-list";
+	}
 
-	  /*@PutMapping("/regenerate-otp")
-	  public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-	    return new ResponseEntity<>(userService.regenerateOtp(email), HttpStatus.OK);
-	  }*/
 }

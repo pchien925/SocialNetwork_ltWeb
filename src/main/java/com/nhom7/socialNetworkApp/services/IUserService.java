@@ -29,9 +29,6 @@ public interface IUserService {
 
 	User login(String username, String password);
 
-	Page<User> findByLastNameContaining(String lastName, Pageable pageable);
-
-	Page<User> findByFirstNameContaining(String firstName, Pageable pageable);
 
 	Optional<User> findByUsername(String username);
 
@@ -44,5 +41,9 @@ public interface IUserService {
 	String register(UserModel UserModel);
 
 	String ChangePassword(String email, String password, String otp);
+
+	Page<User> findAll(Pageable pageable);
+
+	Page<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String keyword, Pageable pageable);
 	
 }

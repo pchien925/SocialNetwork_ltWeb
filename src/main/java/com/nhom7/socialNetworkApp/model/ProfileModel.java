@@ -16,11 +16,9 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-
-public class UserModel implements Serializable{
+public class ProfileModel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
 	@Id
 	private Long id;
     private String firstName;
@@ -29,12 +27,8 @@ public class UserModel implements Serializable{
     private String gender;
     private String phone;
     private String email;
+    private Date createdAt;
     @NotEmpty(message="Khong duoc bo trong")	
-    private String username;
-    @NotEmpty(message="Khong duoc bo trong")
-    private String password;
-    private String repassword;
-    private String otp;
-	
+    private Boolean isFriendOfUser;
+    
 }
-
