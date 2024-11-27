@@ -20,8 +20,7 @@ public class Like extends AbstractEntity<Long>{
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","name","surname","description",
-            "avatar","isActive","status"})
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

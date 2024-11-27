@@ -13,22 +13,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
-@RequestMapping("/")
-public class LoginController extends HttpServlet {
-	static final long serialVersionUID = 1L;
-	@Autowired
-	IUserService userService;
-	
+public class LoginController {
+	@PostMapping("/login_success_handler")
+	public String loginSuccessHandler() {
+		System.out.println("Logging user login success...");
+		return "web/home";
+	}
+	@PostMapping("/login_failure_handler")
+	public String loginFailureHandler() {
+		System.out.println("Login failure handler....");
+		return "login";
+	}
+
 	@GetMapping("/login")
-	public String Login()
-	{
-		return "/login";
+	public String login() {
+		return "login";
 	}
-	@PostMapping("/login")
-	public String postMethodName(@RequestBody String entity) {
-		//TODO: process POST request
-		
-		return "/login";
-	}
-	
 }

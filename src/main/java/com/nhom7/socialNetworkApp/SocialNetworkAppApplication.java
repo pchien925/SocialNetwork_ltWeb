@@ -1,10 +1,11 @@
 package com.nhom7.socialNetworkApp;
 
-import com.nhom7.socialNetworkApp.configuration.MySiteMeshFilter;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @SpringBootApplication
 public class SocialNetworkAppApplication {
@@ -13,11 +14,11 @@ public class SocialNetworkAppApplication {
 		SpringApplication.run(SocialNetworkAppApplication.class, args);
 	}
 
-	@Bean
-	public FilterRegistrationBean<MySiteMeshFilter> siteMeshFilter() {
-		FilterRegistrationBean<MySiteMeshFilter> filterRegistrationBean = new FilterRegistrationBean<MySiteMeshFilter>();
-		filterRegistrationBean.setFilter(new MySiteMeshFilter());
-		filterRegistrationBean.addUrlPatterns("/*");
-		return filterRegistrationBean;
-	}
+//	@Bean
+//	public FilterRegistrationBean<MySiteMeshFilter> siteMeshFilter() {
+//		FilterRegistrationBean<MySiteMeshFilter> filterRegistrationBean = new FilterRegistrationBean<MySiteMeshFilter>();
+//		filterRegistrationBean.setFilter(new MySiteMeshFilter());
+//		filterRegistrationBean.addUrlPatterns("/*");
+//		return filterRegistrationBean;
+//	}
 }

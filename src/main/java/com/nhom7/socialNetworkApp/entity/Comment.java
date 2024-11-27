@@ -19,14 +19,13 @@ public class Comment extends AbstractEntity<Long>{
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
-            "status"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "createdAt", "updatedAt", "description", "dateOfBirth"
+    , "email", "isActive", "otp", "otpGeneratedTime", "phone", "password"})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","photo",
-            "date","user","likes","reports"})
+    @JsonIgnore
     @JoinColumn(name = "post_id")
     private Post post;
 

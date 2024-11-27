@@ -1,15 +1,24 @@
 package com.nhom7.socialNetworkApp.configuration;
 
+import com.nhom7.socialNetworkApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 
@@ -18,29 +27,46 @@ import org.springframework.security.web.firewall.HttpFirewall;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final UserRepository userRepository;
+    private final String[] PUBLIC_ENDPOINTS = {"/login", "/register", "/forgot-password", "/reset-password"};
 
-    private final CustomJwtDecoder customJwtDecoder;
+    @Bean
+    CustomUserDetailService customUserDetailService(){
+        return new CustomUserDetailService(userRepository);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        log.info("------ security filter chain -----");
-        http.cors(Customizer.withDefaults())
-                .authorizeHttpRequests(requests -> {
-                    requests
-                            //.requestMatchers().permitAll()
-                            .anyRequest().permitAll();
-                });
-        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
-                jwtConfigurer.decoder(customJwtDecoder)));
 
-        // Bỏ qua CSRF
-        http.csrf(AbstractHttpConfigurer::disable);
-        return http.build();
+        return http.formLogin(auth -> auth.loginPage("/login").permitAll())
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
+        .build();
     }
 
+//    @Bean
+//    public HttpFirewall defaultHttpFirewall() {
+//        return new DefaultHttpFirewall();
+//    }
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+//        return config.getAuthenticationManager();
+//    }
+//
+//
+//    @Bean
+//    public AuthenticationProvider provider(){
+//        DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
+//        dao.setUserDetailsService(customUserDetailService());
+//        dao.setPasswordEncoder(passwordEncoder());
+//        return dao;
+//    }
+//
     @Bean
-    public HttpFirewall defaultHttpFirewall() {
-        return new DefaultHttpFirewall();
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(10);
     }
 }
