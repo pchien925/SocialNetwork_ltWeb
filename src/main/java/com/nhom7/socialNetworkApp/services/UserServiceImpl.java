@@ -2,6 +2,7 @@ package com.nhom7.socialNetworkApp.services;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,12 +49,16 @@ public class UserServiceImpl implements IUserService{
 	    }
 	    User user = new User();
 	    user.setFirstName(UserModel.getFirstName());
-	    user.setFirstName(UserModel.getLastName());
+	    user.setLastName(UserModel.getLastName());
+	    user.setGender(UserModel.getGender());
+	    user.setPhone(UserModel.getPhone());
 	    user.setEmail(UserModel.getEmail());
+	    user.setDateOfBirth(UserModel.getDateOfBirth());
 	    user.setPassword(UserModel.getPassword());
 	    user.setUsername(UserModel.getUsername());
 	    user.setOtp(otp);
 	    user.setOtpGeneratedTime(LocalDateTime.now());
+	    //user.setOtpGeneratedTime(new Date());
 	    
 	    user.setIsActive(false);
 	    Role roleUser = new Role();
@@ -70,7 +75,7 @@ public class UserServiceImpl implements IUserService{
 	    	return "Username or Email already exists!";
 	    }
 	    userRepository.save(user);
-	    return "User registration successful";
+	    return "User registration successful please veriy your account in your email";
 	  }
 
 	  @Override
@@ -127,16 +132,6 @@ public class UserServiceImpl implements IUserService{
 	        return account.get();
 	    }
 	    return null;
-	}
-	
-	@Override
-	public Page<User> findByFirstNameContaining(String firstName, Pageable pageable) {
-		return userRepository.findByFirstNameContaining(firstName, pageable);
-	}
-
-	@Override
-	public Page<User> findByLastNameContaining(String lastName, Pageable pageable) {
-		return userRepository.findByLastNameContaining(lastName, pageable);
 	}
 
 	@Override
@@ -206,6 +201,16 @@ public class UserServiceImpl implements IUserService{
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
+	@Override
+	public Page<User> findAll(Pageable pageable) {
+		return userRepository.findAll(pageable);
+	}
+	@Override
+	public Page<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String keyword, Pageable pageable) {
+		return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(keyword, keyword,
+				pageable);
+	}
+	
 	
 	
 	
