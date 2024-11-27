@@ -1,4 +1,4 @@
-package com.nhom7.socialNetworkApp.controller.web;
+package com.nhom7.socialNetworkApp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

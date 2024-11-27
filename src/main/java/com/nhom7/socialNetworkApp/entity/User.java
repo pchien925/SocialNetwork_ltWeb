@@ -5,7 +5,9 @@ import com.nhom7.socialNetworkApp.entity.notification.Notification;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class User extends AbstractEntity<Long> {
     private String lastName;
 
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "gender")
     private String gender;
@@ -56,12 +58,15 @@ public class User extends AbstractEntity<Long> {
     @Column(name = "is_active", nullable = false, columnDefinition = "BOOLEAN")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @Builder.Default
+    private List<Role> roles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", nullable = false)
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @OneToMany(mappedBy="userReceiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -1,6 +1,7 @@
 package com.nhom7.socialNetworkApp.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Id;
@@ -25,7 +26,7 @@ public class UserModel implements Serializable{
 	private Long id;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String gender;
     private String phone;
     private String email;

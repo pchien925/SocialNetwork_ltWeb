@@ -1,9 +1,5 @@
-package com.nhom7.socialNetworkApp.controller.web;
+package com.nhom7.socialNetworkApp.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,15 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,21 +39,12 @@ public class AccountController extends HttpServlet {
 	static final long serialVersionUID = 1L;
 	@Autowired
 	private IUserService userService;
-	@InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) throws IllegalArgumentException {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    setValue(sdf.parse(text)); // Chuyển từ String thành java.util.Date
-                } catch (ParseException e) {
-                    throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd.", e);
-                }
-            }
-        });
-    }
-	
+
+	@GetMapping("/signin")
+	public String login() {
+		return "login";
+	}
+
 	@GetMapping("/register")
 	public String Register()
 	{
@@ -139,13 +123,7 @@ public class AccountController extends HttpServlet {
 	    model.addAttribute("message",message);
 	    return new ModelAndView("redirect:/login", model);
 	}
-//	@PutMapping("/verify-account")
-//	  public ResponseEntity<String> verifyAccount(@RequestParam String email,
-//	      @RequestParam String otp) {
-//		System.out.println(email);
-//		System.out.println(otp);
-//	    return new ResponseEntity<>(userService.verifyAccount(email, otp), HttpStatus.OK);
-//	  }
+
 	@PostMapping("/regenerate-otp")
 	public ModelAndView regenerateOtp(@RequestParam String email, ModelMap model) {
 	    String message = userService.regenerateOtp(email);

@@ -43,7 +43,4 @@ public class Post extends AbstractEntity<Long>{
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","post","reportReason","extraInformation"})
     private List<Report> reports;
-
-    @Column(name = "is_pinned", nullable = false, columnDefinition = "BOOLEAN")
-    private Boolean isPinned;
 }

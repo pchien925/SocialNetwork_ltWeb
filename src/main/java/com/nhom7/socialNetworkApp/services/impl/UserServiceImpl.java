@@ -1,21 +1,17 @@
-package com.nhom7.socialNetworkApp.services;
+package com.nhom7.socialNetworkApp.services.impl;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.naming.AuthenticationException;
-
+import com.nhom7.socialNetworkApp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.nhom7.socialNetworkApp.entity.Role;
 import com.nhom7.socialNetworkApp.entity.Status;
@@ -29,7 +25,7 @@ import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -62,8 +58,8 @@ public class UserServiceImpl implements IUserService{
 	    
 	    user.setIsActive(false);
 	    Role roleUser = new Role();
-	    roleUser.setId(1);  
-	    user.setRole(roleUser);
+	    roleUser.setId(1);
+	    user.getRoles().add(roleUser);
 
 	    Status statusUser = new Status();
 	    statusUser.setId(1L);  

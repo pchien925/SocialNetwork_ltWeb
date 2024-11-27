@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Getter
@@ -22,9 +21,9 @@ public abstract class AbstractEntity<T extends Serializable> implements Serializ
 
     @Column(name = "created_at")
     @CreationTimestamp
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at")
     @UpdateTimestamp
-    private Date updatedAt;
+    private LocalDate updatedAt;
 }

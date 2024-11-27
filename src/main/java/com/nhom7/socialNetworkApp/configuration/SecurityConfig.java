@@ -1,14 +1,22 @@
 package com.nhom7.socialNetworkApp.configuration;
 
+import com.nhom7.socialNetworkApp.repository.UserRepository;
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -18,29 +26,72 @@ import org.springframework.security.web.firewall.HttpFirewall;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final UserRepository userRepository;
+    private final String[] PUBLIC_MATCHERS = {
+            "/",
+            "/api/test",
+            "/signin",
+            "/home",
+            "/register"
+    };
 
-    private final CustomJwtDecoder customJwtDecoder;
+    public UserDetailsService userDetailsService(){
+        return new UserDetailServiceImpl(userRepository);
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain config(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/signin")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("username")
+                        .defaultSuccessUrl("/home")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/signout")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
 
-        log.info("------ security filter chain -----");
-        http.cors(Customizer.withDefaults())
-                .authorizeHttpRequests(requests -> {
-                    requests
-                            //.requestMatchers().permitAll()
-                            .anyRequest().permitAll();
-                });
-        http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
-                jwtConfigurer.decoder(customJwtDecoder)));
-
-        // Bỏ qua CSRF
-        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
     @Bean
     public HttpFirewall defaultHttpFirewall() {
         return new DefaultHttpFirewall();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+
+    @Bean
+    public AuthenticationProvider provider(){
+        DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
+        dao.setUserDetailsService(userDetailsService());
+        dao.setPasswordEncoder(passwordEncoder());
+        return dao;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder(10);
+    }
+
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService())
+                .passwordEncoder(passwordEncoder());
     }
 }
