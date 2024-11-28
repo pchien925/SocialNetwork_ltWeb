@@ -44,9 +44,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
-                        .anyRequest().authenticated()
+//                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/signin")

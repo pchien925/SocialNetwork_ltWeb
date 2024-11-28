@@ -2,9 +2,13 @@ package com.nhom7.socialNetworkApp.services.impl;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
+import com.nhom7.socialNetworkApp.entity.enumeration.RoleName;
+import com.nhom7.socialNetworkApp.repository.RoleRepository;
 import com.nhom7.socialNetworkApp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +31,9 @@ import jakarta.mail.MessagingException;
 @Service
 public class UserServiceImpl implements IUserService {
 	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
 	UserRepository userRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -35,14 +42,10 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private EmailUtil emailUtil;
 
-	  @Override
+	@Override
 	public String register(UserModel UserModel) {
 	    String otp = otpUtil.generateOtp();
-	    try {
-	      emailUtil.sendVerifyOtpEmail(UserModel.getEmail(), otp);
-	    } catch (MessagingException e) {
-	      throw new RuntimeException("Unable to send otp please try again");
-	    }
+
 	    User user = new User();
 	    user.setFirstName(UserModel.getFirstName());
 	    user.setLastName(UserModel.getLastName());
@@ -57,9 +60,9 @@ public class UserServiceImpl implements IUserService {
 	    //user.setOtpGeneratedTime(new Date());
 	    
 	    user.setIsActive(false);
-	    Role roleUser = new Role();
-	    roleUser.setId(1);
-	    user.getRoles().add(roleUser);
+	    Role roleUser = roleRepository.findById(2)
+	        .orElseThrow(() -> new RuntimeException("Role not found"));
+	    user.setRoles(Collections.singletonList(roleUser));
 
 	    Status statusUser = new Status();
 	    statusUser.setId(1L);  
@@ -71,6 +74,11 @@ public class UserServiceImpl implements IUserService {
 	    	return "Username or Email already exists!";
 	    }
 	    userRepository.save(user);
+		try {
+			emailUtil.sendVerifyOtpEmail(UserModel.getEmail(), otp);
+		} catch (MessagingException e) {
+			throw new RuntimeException("Unable to send otp please try again");
+		}
 	    return "User registration successful please veriy your account in your email";
 	  }
 
