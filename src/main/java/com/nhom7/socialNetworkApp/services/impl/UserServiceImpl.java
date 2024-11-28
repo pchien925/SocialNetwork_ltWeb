@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
 	    user.setPhone(UserModel.getPhone());
 	    user.setEmail(UserModel.getEmail());
 	    user.setDateOfBirth(UserModel.getDateOfBirth());
-	    user.setPassword(UserModel.getPassword());
+	    user.setPassword(passwordEncoder.encode(UserModel.getPassword()));
 	    user.setUsername(UserModel.getUsername());
 	    user.setOtp(otp);
 	    user.setOtpGeneratedTime(LocalDateTime.now());
