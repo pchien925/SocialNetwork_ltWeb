@@ -12,22 +12,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
 @Builder
 public class PostResponse {
+    private Long id;
+
     private String text;
 
     private String photo;
 
     private User user;
 
-    @Builder.Default
-    private List<Like> likes = new ArrayList<>();
+    private String created;
 
-    @Builder.Default
-    private List<Comment> comments = new ArrayList<>();
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
 }

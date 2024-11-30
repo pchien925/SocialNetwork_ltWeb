@@ -67,6 +67,7 @@ public class User extends AbstractEntity<Long> {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id")
+    @JsonIgnore
     private Status status;
 
     @OneToMany(mappedBy="userReceiver", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

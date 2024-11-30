@@ -20,4 +20,9 @@ spring:
     password: bkrh idqc hqea vdav
 server:
   port: 8888
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
 

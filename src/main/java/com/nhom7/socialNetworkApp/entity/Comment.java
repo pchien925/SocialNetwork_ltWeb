@@ -25,8 +25,7 @@ public class Comment extends AbstractEntity<Long>{
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","photo",
-            "date","user","likes","reports"})
+    @JsonIgnore
     @JoinColumn(name = "post_id")
     private Post post;
 
@@ -37,7 +36,7 @@ public class Comment extends AbstractEntity<Long>{
             uniqueConstraints = {@UniqueConstraint(columnNames = {"comment_id", "reply_id"})})
     private List<Comment> replies;
 
-    public boolean getHasReplies() {
+    private boolean getHasReplies() {
         return this.replies.size() > 0;
     }
 

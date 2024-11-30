@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +50,11 @@ public class SecurityConfig {
 //                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
                         .anyRequest().permitAll()
                 )
+                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+//        SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(authority -> {
+//            log.info("role: {}", authority.getAuthority());
+//        });
+//        log.info("username: {}", SecurityContextHolder.getContext().getAuthentication().getName());
                 .formLogin(form -> form
                         .loginPage("/signin")
                         .loginProcessingUrl("/login")
@@ -61,6 +68,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 );
+
 
         return http.build();
     }

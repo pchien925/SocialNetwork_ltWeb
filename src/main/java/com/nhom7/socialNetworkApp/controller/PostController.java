@@ -14,6 +14,16 @@ public class PostController {
 
     @GetMapping("/my-posts")
     public String getMyPosts() {
-        return "web/my-posts";
+        return "post-details";
+    }
+
+    @GetMapping("/newsfeed")
+    public String getNewsfeed() {
+        return "web/newsfeed";
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "web/testPaging";
     }
 }
