@@ -2,6 +2,7 @@ package com.nhom7.socialNetworkApp.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +47,7 @@ import com.nhom7.socialNetworkApp.services.IUserService;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.validation.Valid;
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user")
 public class FriendController extends HttpServlet{
 	static final long serialVersionUID = 1L;
 	@Autowired
@@ -105,7 +106,7 @@ public class FriendController extends HttpServlet{
         try {
             Friendship friendship = friendshipService.findById(idFriendship).get();
             friendship.setIsAccept(true);
-            friendship.setUpdatedAt(LocalDate.now());
+            friendship.setUpdatedAt(LocalDateTime.now());
 
             friendship = friendshipService.save(friendship);
             NotificationFriend notificationFriend = new NotificationFriend(friendship.getUserTransmitter(), friendship.getUserReceiver());

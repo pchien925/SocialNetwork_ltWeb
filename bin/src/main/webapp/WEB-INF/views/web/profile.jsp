@@ -49,14 +49,16 @@
                 <td class="col-md-4">
                     Date of birth:
                 </td>
-                <td class="col-md-8"><fmt:formatDate value="${profile.dateOfBirth}" pattern="dd.MM.yyyy"/>
+                <td class="col-md-8">
+                
+                ${profile.dateOfBirth}
                 </td>
             <tr>
                 <td class="col-md-4">
                     Registered at:
                 </td>
-                <td class="col-md-8"><fmt:formatDate value="${profile.createdAt}"
-                                                     pattern="dd.MM.yyyy"/>
+                <td class="col-md-8">
+                	${profile.createdAt}
                 </td>
         </table>
     </div>

@@ -25,7 +25,7 @@ import com.nhom7.socialNetworkApp.services.IUserService;
 import jakarta.servlet.http.HttpServlet;
 
 @Controller
-@RequestMapping("user/api/followerships/")
+@RequestMapping("/user")
 public class FollowershipController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class FollowershipController extends HttpServlet{
 	private IFollowershipService followershipService;
 	@Autowired
 	MessageSource messageSource;
-	@PostMapping("/sendFollowRequest")
+	@PostMapping("/api/followerships/follow")
 	@ResponseBody // Trả về JSON
 	public Map<String, String> addFollow(@RequestParam(required = false) String userId, Principal principal) {
 	    Map<String, String> response = new HashMap<>();
