@@ -18,27 +18,17 @@ public class Comment extends AbstractEntity<Long>{
     @Column(name = "text", nullable = false)
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","description",
-            "status"})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","text","photo",
-            "date","user","likes","reports"})
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinTable(name = "replies", joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "reply_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"comment_id", "reply_id"})})
-    private List<Comment> replies;
-
-    public boolean getHasReplies() {
-        return this.replies.size() > 0;
-    }
-
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
 }
