@@ -75,10 +75,6 @@ public class UserServiceImpl implements IUserService {
 	    Role roleUser = roleRepository.findById(1)
 	        .orElseThrow(() -> new RuntimeException("Role not found"));
 	    user.setRoles(Collections.singletonList(roleUser));
-
-	    Status statusUser = new Status();
-	    statusUser.setId(1L);  
-	    user.setStatus(statusUser);
 	    Optional<User> opt1 = findByEmail(user.getEmail());
 	    Optional<User> opt2 = findByUsername(user.getUsername());
 	    if(!opt1.isEmpty()||!opt2.isEmpty())
