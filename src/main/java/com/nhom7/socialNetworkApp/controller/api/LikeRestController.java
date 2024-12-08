@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -33,11 +32,11 @@ public class LikeRestController {
                 .build();
     }
 
-    @PostMapping("/delete")
-    public ApiResponse<String> delete(@RequestBody LikeRequest request) {
+    @DeleteMapping("/post/{postId}")
+    public ApiResponse<String> delete(@PathVariable Long postId) {
         return ApiResponse.<String>builder()
                 .status(HttpStatus.OK.value())
-                .data(likeService.delete(request))
+                .data(likeService.delete(postId))
                 .build();
     }
 
@@ -48,7 +47,23 @@ public class LikeRestController {
                                                                @RequestParam(value = "sortBy", defaultValue = "createdAt") String sortBy) {
         return ApiResponse.<PageResponse<LikeResponse>>builder()
                 .status(HttpStatus.OK.value())
-                .data(likeService.getAllByUser(postId, page, size, sortBy))
+                .data(likeService.getAllByPost(postId, page, size, sortBy))
+                .build();
+    }
+
+    @GetMapping("/post/{postId}/is-liked")
+    public ApiResponse<Boolean> isLiked(@PathVariable Long postId) {
+        return ApiResponse.<Boolean>builder()
+                .status(HttpStatus.OK.value())
+                .data(likeService.isLiked(postId))
+                .build();
+    }
+
+    @PostMapping("/post/{postId}")
+    public ApiResponse<LikeResponse> createLike(@PathVariable Long postId) {
+        return ApiResponse.<LikeResponse>builder()
+                .status(HttpStatus.CREATED.value())
+                .data(likeService.createLike(postId))
                 .build();
     }
 

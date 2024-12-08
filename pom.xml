@@ -30,6 +30,12 @@
 		<java.version>23</java.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.39.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp/jakarta.servlet.jsp-api -->
 		<dependency>
 			<groupId>jakarta.servlet.jsp</groupId>

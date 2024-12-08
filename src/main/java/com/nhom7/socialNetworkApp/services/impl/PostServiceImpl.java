@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,8 +72,15 @@ public class PostServiceImpl implements IPostService {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy));
 
         Page<Post> posts = postRepository.findAll(pageable);
+
+        List<PostResponse> postResponses = posts.map(postMapper::toPostResponse).getContent();
+
+        for (PostResponse postResponse : postResponses) {
+            postResponse.setCreated(dateTimeFormatter.format(postResponse.getCreatedAt()));
+        }
+
         return PageResponse.<PostResponse>builder()
-                .content(posts.map(postMapper::toPostResponse).getContent())
+                .content(postResponses)
                 .currentPage(page)
                 .pageSize(size)
                 .totalPages(posts.getTotalPages())
@@ -88,8 +94,14 @@ public class PostServiceImpl implements IPostService {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy));
 
         Page<Post> posts = postRepository.findByUser_Username(username, pageable);
+
+        List<PostResponse> postResponses = posts.map(postMapper::toPostResponse).getContent();
+
+        for (PostResponse postResponse : postResponses) {
+            postResponse.setCreated(dateTimeFormatter.format(postResponse.getCreatedAt()));
+        }
         return PageResponse.<PostResponse>builder()
-                .content(posts.map(postMapper::toPostResponse).getContent())
+                .content(postResponses)
                 .currentPage(page)
                 .pageSize(size)
                 .totalPages(posts.getTotalPages())

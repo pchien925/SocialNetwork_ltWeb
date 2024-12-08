@@ -286,16 +286,51 @@
         )
     }
 
-    function updatePagination(data, currentPage){
+    function updatePagination(data, currentPage) {
         const pagination = $('#pagination');
-        pagination.html(``);
-        for (let i = 1; i <= data.totalPages; i++) {
+        pagination.html('');  // Xóa nội dung cũ
+
+        const maxPagesToShow = 3;
+        let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+        let endPage = Math.min(startPage + maxPagesToShow - 1, data.totalPages);
+
+        // Điều chỉnh startPage nếu endPage nhỏ hơn tổng số trang
+        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+
+        // Tạo DocumentFragment để chứa các phần tử
+        const fragment = document.createDocumentFragment();
+
+        // Tạo hàm chung cho nút Previous và Next
+        const createNavItem = (text, targetPage, isDisabled) => {
+            const item = document.createElement('li');
+            item.classList.add('page-item');
+            if (isDisabled) item.classList.add('disabled');
+
+            const link = document.createElement('a');
+            link.classList.add('page-link');
+            link.href = '#';
+            link.innerText = text;
+
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                if (!isDisabled) fetchPost(targetPage);
+            });
+
+            item.append(link);
+            return item;
+        };
+
+        // Thêm nút Previous
+        fragment.append(createNavItem('Previous', currentPage - 1, currentPage === 1));
+
+        // Tạo các mục trang
+        for (let i = startPage; i <= endPage; i++) {
             const pageItem = document.createElement('li');
             pageItem.classList.add('page-item');
-
             if (i === currentPage) {
                 pageItem.classList.add('active');
             }
+
             const pageLink = document.createElement('a');
             pageLink.classList.add('page-link');
             pageLink.href = '#';
@@ -303,19 +338,25 @@
 
             pageLink.addEventListener('click', function(event) {
                 event.preventDefault();
-                fetchPost(i);  // Gọi lại API với trang mới
+                fetchPost(i);
             });
+
             pageItem.append(pageLink);
-            pagination.append(pageItem);
+            fragment.append(pageItem);
         }
 
+        // Thêm nút Next
+        fragment.append(createNavItem('Next', currentPage + 1, currentPage === data.totalPages));
+
+        // Thêm fragment vào pagination
+        pagination.append(fragment);
     }
 
     function renderPost(data) {
         const post = $('.post-body');
         const postHTML = `
         <p>
-                ` + data.text + `
+                $('data.text')
             </p>
             <!-- Hình ảnh bài viết -->
             <img

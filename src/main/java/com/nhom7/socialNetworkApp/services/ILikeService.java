@@ -9,9 +9,13 @@ import java.util.List;
 public interface ILikeService {
     LikeResponse create(LikeRequest request);
 
-    String delete(LikeRequest request);
+    LikeResponse createLike(Long postId);
 
-    PageResponse<LikeResponse> getAllByUser(long postId, int page, int size, String sortBy);
+    boolean isLiked(Long postId);
+
+    String delete(Long postId);
+
+    PageResponse<LikeResponse> getAllByPost(long postId, int page, int size, String sortBy);
 
     long countByPostId(Long postId);
 }

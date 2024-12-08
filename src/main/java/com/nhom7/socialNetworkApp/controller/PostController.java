@@ -26,4 +26,9 @@ public class PostController {
     public String test() {
         return "web/testPaging";
     }
+
+    @GetMapping("/add")
+    public String addPost() {
+        return "web/add-post";
+    }
 }

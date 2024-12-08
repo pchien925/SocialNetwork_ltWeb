@@ -26,6 +26,10 @@ public class Post extends AbstractEntity<Long>{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "media_id", referencedColumnName = "id")
+    private Media media;
+
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Like> likes;
