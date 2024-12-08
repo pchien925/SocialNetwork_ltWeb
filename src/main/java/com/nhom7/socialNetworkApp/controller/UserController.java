@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-@RequestMapping("/")
-public class AccountController extends HttpServlet {
+@RequestMapping("/user")
+public class UserController extends HttpServlet {
 	static final long serialVersionUID = 1L;
 	@Autowired
 	private IUserService userService;
@@ -86,23 +86,9 @@ public class AccountController extends HttpServlet {
 	    model.addAttribute("message",message);
 	    return "confirmOTP"; 
 	}
-	@GetMapping("/profile/{id}") 
-	public ModelAndView profile(ModelMap model,
-			@PathVariable("id") Long userId){
-		Optional<User> optUser=userService.findById(userId);
-		ProfileModel profileModel=new ProfileModel();
-		if(optUser.isPresent())
-		{
-			User entity=optUser.get();
-			BeanUtils.copyProperties(entity, profileModel);
-			model.addAttribute("profile",profileModel);	
-			return new ModelAndView("/web/profile",model);
-		}
-		model.addAttribute("message","User is not existed!!!");	
-		return new ModelAndView("forward:/web/home",model);
-	}
+	
 
-	@PostMapping("/addUser")
+	@PostMapping("/register")
 	public ModelAndView AddUser(@Valid @ModelAttribute("userModel") UserModel userModel, 
 	                             BindingResult bindingResult, ModelMap model) {
 	    // Kiểm tra lỗi validation từ userModel
@@ -121,7 +107,7 @@ public class AccountController extends HttpServlet {
 	    }
 	    String message=userService.register(userModel);
 	    model.addAttribute("message",message);
-	    return new ModelAndView("redirect:/login", model);
+	    return new ModelAndView("redirect:/signin", model);
 	}
 
 	@PostMapping("/regenerate-otp")
@@ -151,11 +137,31 @@ public class AccountController extends HttpServlet {
 	    model.addAttribute("message",message);
 	    return new ModelAndView("redirect:/login", model);
 	}
-	@RequestMapping("/friends")
+	@RequestMapping("/user-list")
 	public String all(Model model) {
-		List<User> list = userService.findAll();
-		model.addAttribute("listuser", list);
-		System.out.println(list.size());
+		
+		int count = (int) userService.count();
+	    int currentPage = 1;
+	    int pageSize = 5;
+	    Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+	    Page<User> resultPage = null;
+        resultPage = userService.findAll(pageable);
+	    
+	    int totalPages = resultPage.getTotalPages();
+	    if (totalPages > 0) {
+	        int start = Math.max(1, currentPage - 2);
+	        int end = Math.min(currentPage + 2, totalPages);
+	        if (totalPages > count) {
+	            if (end == totalPages)
+	                start = end - count;
+	            else if (start == 1)
+	                end = start + count;
+	        }
+	        List<Integer> pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+	        System.out.println(pageNumbers.size());
+	        model.addAttribute("pageNumbers", pageNumbers);
+	    }
+		model.addAttribute("userPage", resultPage);
 		return "web/user-list";
 	}
 	@RequestMapping("/searchpaginated")
@@ -194,5 +200,4 @@ public class AccountController extends HttpServlet {
 	    model.addAttribute("userPage", resultPage);
 	    return "web/user-list";
 	}
-
 }

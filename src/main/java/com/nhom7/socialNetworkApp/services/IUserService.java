@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.nhom7.socialNetworkApp.dto.response.ProfileResponse;
 import com.nhom7.socialNetworkApp.entity.User;
 import com.nhom7.socialNetworkApp.model.UserModel;
 
@@ -45,5 +46,7 @@ public interface IUserService {
 	Page<User> findAll(Pageable pageable);
 
 	Page<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String keyword, Pageable pageable);
+
+	ProfileResponse getProfile(Long userId);
 	
 }
