@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
 	    user.setPhone(UserModel.getPhone());
 	    user.setEmail(UserModel.getEmail());
 	    user.setDateOfBirth(UserModel.getDateOfBirth());
-	    user.setPassword(UserModel.getPassword());
+	    user.setPassword(passwordEncoder.encode(UserModel.getPassword()));
 	    user.setUsername(UserModel.getUsername());
 	    user.setOtp(otp);
 	    user.setOtpGeneratedTime(LocalDateTime.now());
@@ -63,10 +63,6 @@ public class UserServiceImpl implements IUserService {
 	    Role roleUser = roleRepository.findById(2)
 	        .orElseThrow(() -> new RuntimeException("Role not found"));
 	    user.setRoles(Collections.singletonList(roleUser));
-
-	    Status statusUser = new Status();
-	    statusUser.setId(1L);  
-	    user.setStatus(statusUser);
 	    Optional<User> opt1 = findByEmail(user.getEmail());
 	    Optional<User> opt2 = findByUsername(user.getUsername());
 	    if(!opt1.isEmpty()||!opt2.isEmpty())
