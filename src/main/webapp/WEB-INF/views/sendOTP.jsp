@@ -68,27 +68,28 @@ a {
 </head>
 <body>
 
-		<div >
-            <h1>Forgot Your Password?</h1>
-            <c:if test="${not empty message}">
-        <div class="${message eq 'Error' ? 'error-message' : 'success-message'}">
-            ${message}
-        </div>
-    </c:if>
-            <div class="content-form-page">
-              <div class="row">
-                <div class="col-md-7 col-sm-7">
-                <form action="/regenerate-otp" method="post">
-                
-                      <label for="email" class="col-lg-4 control-label">Email</label>
-                      <div class="col-lg-8">
-                        <input type="text" name="email" class="form-control" id="email" value="${email}">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Send OTP</button>
-                      </form>
-                </div>
-              </div>
-            </div>
-          </div>
+	<div>
+		<h1>Forgot Your Password?</h1>
+		<c:if test="${not empty message}">
+			<div
+				class="${message eq 'Error' ? 'error-message' : 'success-message'}">
+				${message}</div>
+		</c:if>
+		<div class="content-form-page">
+			<div class="row">
+				<div class="col-md-7 col-sm-7">
+					<form action="/regenerate-otp" method="post">
+
+						<label for="email" class="col-lg-4 control-label">Email</label>
+						<div class="col-lg-8">
+							<input type="text" name="email" class="form-control" id="email"
+								value="${email}">
+						</div>
+						<button type="submit" class="btn btn-primary">Send OTP</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.nhom7.socialNetworkApp.entity.enumeration.RoleName;
+import com.nhom7.socialNetworkApp.mapper.UserMapper;
 import com.nhom7.socialNetworkApp.repository.RoleRepository;
 import com.nhom7.socialNetworkApp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nhom7.socialNetworkApp.dto.response.ProfileResponse;
 import com.nhom7.socialNetworkApp.entity.Role;
 import com.nhom7.socialNetworkApp.entity.Status;
 import com.nhom7.socialNetworkApp.entity.User;
@@ -32,7 +34,8 @@ import jakarta.mail.MessagingException;
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	private RoleRepository roleRepository;
-
+	@Autowired
+	private UserMapper userMapper;
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -41,7 +44,16 @@ public class UserServiceImpl implements IUserService {
 	private OtpUtil otpUtil=new OtpUtil();
 	@Autowired
 	private EmailUtil emailUtil;
-
+	
+	@Override
+	public ProfileResponse getProfile(Long userId)
+	{
+		User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+		
+        return userMapper.toProfileResponse(user);
+	}
+	
 	@Override
 	public String register(UserModel UserModel) {
 	    String otp = otpUtil.generateOtp();
@@ -60,7 +72,7 @@ public class UserServiceImpl implements IUserService {
 	    //user.setOtpGeneratedTime(new Date());
 	    
 	    user.setIsActive(false);
-	    Role roleUser = roleRepository.findById(2)
+	    Role roleUser = roleRepository.findById(1)
 	        .orElseThrow(() -> new RuntimeException("Role not found"));
 	    user.setRoles(Collections.singletonList(roleUser));
 	    Optional<User> opt1 = findByEmail(user.getEmail());

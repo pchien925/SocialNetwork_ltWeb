@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: socialNetworkApp
+  datasource:
+    url: jdbc:mysql://localhost:3306/social_network
+    username: root
+    password: 25092004chien
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: quanlydoannhom6@gmail.com
+    password: bkrh idqc hqea vdav
+server:
+  port: 8888
+
