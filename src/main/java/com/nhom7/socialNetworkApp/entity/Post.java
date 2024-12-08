@@ -22,6 +22,7 @@ public class Post extends AbstractEntity<Long>{
     @Column(name = "photo")
     private String photo;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -44,6 +45,7 @@ public class Post extends AbstractEntity<Long>{
 
     @OneToMany(mappedBy="post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+
     private List<Report> reports;
 
 }
