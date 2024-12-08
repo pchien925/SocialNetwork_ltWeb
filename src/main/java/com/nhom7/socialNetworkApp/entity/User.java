@@ -112,4 +112,9 @@ public class User extends AbstractEntity<Long> {
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Report> reports;
+    
+    public String getFullName()
+    {
+    	return this.firstName+" "+this.lastName;
+    }
 }

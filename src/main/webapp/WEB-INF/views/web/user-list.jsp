@@ -15,7 +15,7 @@
 No user
 </c:if>
 <c:if test="${userPage.hasContent()}">
-	<table border="1" >
+	<table border="1">
 		<tr>
 			<th>STT</th>
 			<th>Avatar</th>
@@ -26,19 +26,21 @@ No user
 			<tr>
 				<td>${STT.index+1 }</td>
 				<c:if test="${user.avatar.substring(0,5) == 'https' }">
-				<c:url value="${user.avatar}" var="imgUrl"></c:url>
-			</c:if>
-			<c:if test="${user.avatar.substring(0,5) != 'https' }">
-				<c:url value="/image?fname=${user.avatar}" var="imgUrl"></c:url>
-			</c:if>
-			<c:if test="${user.avatar == Null }">
-				<c:url value="https://as1.ftcdn.net/v2/jpg/03/53/11/00/1000_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg"
-				 var="imgUrl"></c:url>
-			</c:if>
-			<td><img height="150" width="200" src="${imgUrl}" /></td>
-				<td>${user.firstName}  ${user.lastName}</td>
-				<td><a href="/admin/categories/edit/${user.id}">add friend</a> <a
-					href="/admin/categories/delete/${user.id}">follow</a></td>
+					<c:url value="${user.avatar}" var="imgUrl"></c:url>
+				</c:if>
+				<c:if test="${user.avatar.substring(0,5) != 'https' }">
+					<c:url value="/image?fname=${user.avatar}" var="imgUrl"></c:url>
+				</c:if>
+				<c:if test="${user.avatar == null }">
+					<c:url
+						value="https://as1.ftcdn.net/v2/jpg/03/53/11/00/1000_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg"
+						var="imgUrl"></c:url>
+				</c:if>
+				<td><img height="150" width="200" src="${imgUrl}" /></td>
+				<td>${user.firstName} ${user.lastName}</td>
+				<td>
+					<button onclick="addFriend(${user.id})">Add Friend</button>
+					<button onclick="addFollow(${user.id})">Follow Friend</button>
 			</tr>
 		</c:forEach>
 	</table>
@@ -60,9 +62,61 @@ No user
 				<li
 					class="${pageNumber == userPage.number + 1 ? 'page-item active' : 'page-item'}">
 					<a
-					href="<c:url value='/searchpaginated?name=${name}&size=${userPage.size}&page=${pageNumber}'/>">${pageNumber}</a>
+					href="<c:url value='/user/searchpaginated?name=${name}&size=${userPage.size}&page=${pageNumber}'/>">${pageNumber}</a>
 				</li>
 			</c:if>
 		</c:forEach>
 	</ul>
 </c:if>
+<script>
+    function addFriend(userId) {
+        // Gửi yêu cầu POST bằng Fetch API
+        fetch('api/sendFriendRequest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                userId: userId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị thông báo từ phản hồi
+            if (data.status === 'success') {
+                alert(data.message); // Hoặc hiển thị thông báo tùy chỉnh
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding friend.');
+        });
+    }
+    function addFollow(userId) {
+        // Gửi yêu cầu POST bằng Fetch API
+        fetch('api/followerships/follow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                userId: userId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị thông báo từ phản hồi
+            if (data.status === 'success') {
+                alert(data.message); // Hoặc hiển thị thông báo tùy chỉnh
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding friend.');
+        });
+    }
+</script>

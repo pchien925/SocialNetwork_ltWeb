@@ -1,6 +1,7 @@
 package com.nhom7.socialNetworkApp.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Id;
@@ -23,12 +24,10 @@ public class ProfileModel implements Serializable{
 	private Long id;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private String avatar;
+    private LocalDate dateOfBirth;
     private String gender;
     private String phone;
     private String email;
-    private Date createdAt;
-    @NotEmpty(message="Khong duoc bo trong")	
-    private Boolean isFriendOfUser;
-    
+    private LocalDate createdAt;
 }

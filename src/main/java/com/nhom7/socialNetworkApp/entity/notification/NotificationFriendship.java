@@ -22,7 +22,11 @@ public class NotificationFriendship extends Notification {
             "description","creationDate","deletionDate","isChecked","userReceiver","date","status"})
     @JoinColumn(name = "friendship_id")
     private Friendship friendship;
-
+    
+    public NotificationFriendship(User userReceiver, Friendship friendship) {
+        this.setUserReceiver(userReceiver);
+        this.friendship = friendship;
+    }
     @Override
     public String getType() {
         return "friendship_type";

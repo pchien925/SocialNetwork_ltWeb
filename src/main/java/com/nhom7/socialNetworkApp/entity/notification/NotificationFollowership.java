@@ -2,6 +2,8 @@ package com.nhom7.socialNetworkApp.entity.notification;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nhom7.socialNetworkApp.entity.Followership;
+import com.nhom7.socialNetworkApp.entity.User;
+
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,6 +24,10 @@ public class NotificationFollowership extends Notification {
     @JoinColumn(name = "followership_id")
     private Followership followership;
 
+    public NotificationFollowership(User userReceiver, Followership followership) {
+        this.setUserReceiver(userReceiver);
+        this.followership = followership;
+    }   
     @Override
     public String getType() {
         return "followership_type";

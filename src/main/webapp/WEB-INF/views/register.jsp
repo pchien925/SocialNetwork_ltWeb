@@ -34,7 +34,7 @@
     </c:if>
 
     <!-- Form để thêm user -->
-    <form action="/addUser" method="post">
+    <form action="/register" method="post">
         <div class="input-box">
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" required>
