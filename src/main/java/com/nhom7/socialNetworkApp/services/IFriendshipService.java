@@ -15,5 +15,9 @@ public interface IFriendshipService {
 
 	Optional<Friendship> findByUsers(User userTransmitter, User userReceiver);
 
+	Integer findFriendsQuantity(Long idUser);
+
+	void deleteById(Long id);
+
 	
 }

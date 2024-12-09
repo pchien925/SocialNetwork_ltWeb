@@ -1,5 +1,6 @@
 package com.nhom7.socialNetworkApp.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.nhom7.socialNetworkApp.entity.Followership;
@@ -14,5 +15,13 @@ public interface IFollowershipService {
 	<S extends Followership> S save(S entity);
 
 	Optional<Followership> findByUserFollowerAndUserChecked(User userFollower, User userChecked);
+
+	void deleteById(Long id);
+
+	List<Followership> findAllById(Iterable<Long> ids);
+
+	Integer findFollowingQuantity(Long idUser);
+
+	Integer findFollowersQuantity(Long idUser);
 	
 }

@@ -25,6 +25,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -121,7 +123,35 @@ public class FriendController extends HttpServlet{
         }
     }
 
-
-
+	@GetMapping("/get/friends-count/{idUser}")
+    public ResponseEntity<?> getFriendsCount(@PathVariable Long idUser, Locale locale) {
+        try {
+            return new ResponseEntity<>(friendshipService.findFriendsQuantity(idUser), HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+	@DeleteMapping("/friendship/delete/{idFriendship}")
+    public ResponseEntity<?> deleteFriendship(@PathVariable Long idFriendship, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+        	Friendship friendship = friendshipService.findById(idFriendship).get();
+        	if (friendship.getIsAccept()) {
+                response.put("message", messageSource.getMessage("friendshipController.deleteFriendship", null, locale));
+            }
+        	else
+        		response.put("message","Friend request denied");
+            this.friendshipService.deleteById(idFriendship);
+            //If the status of the request is true it means that the user is deleting a friend and not rejecting a friend request
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

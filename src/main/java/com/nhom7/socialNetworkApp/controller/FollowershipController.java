@@ -2,12 +2,19 @@ package com.nhom7.socialNetworkApp.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,4 +86,41 @@ public class FollowershipController extends HttpServlet{
 	    }
 	    return response;
 	}
+	@DeleteMapping("/followership/delete/{idFollowership}")
+    public ResponseEntity<?> deleteFollowership(@PathVariable Long idFollowership, Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            followershipService.deleteById(idFollowership);
+            response.put("message", messageSource.getMessage("followershipController.deleteFollowership", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+	@GetMapping("/get/followers-count/{idUser}")
+    public ResponseEntity<?> getFollowersCount(@PathVariable Long idUser, Locale locale) {
+        try {
+            return new ResponseEntity<>(followershipService.findFollowersQuantity(idUser), HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/get/following-count/{idUser}")
+    public ResponseEntity<?> getFollowingCount(@PathVariable Long idUser, Locale locale) {
+        try {
+            return new ResponseEntity<>(followershipService.findFollowingQuantity(idUser), HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

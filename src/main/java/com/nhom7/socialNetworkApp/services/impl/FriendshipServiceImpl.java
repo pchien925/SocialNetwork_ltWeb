@@ -37,6 +37,14 @@ public class FriendshipServiceImpl implements IFriendshipService{
 	public Optional<Friendship> findByUsers(User userTransmitter, User userReceiver) {
 		return friendshipRepository.findByUsers(userTransmitter, userReceiver);
 	}
+	@Override
+	public Integer findFriendsQuantity(Long idUser) {
+		return friendshipRepository.findFriendsQuantity(idUser);
+	}
+	@Override
+	public void deleteById(Long id) {
+		friendshipRepository.deleteById(id);
+	}
 	
 	
 	
