@@ -3,7 +3,7 @@
 
 
 <div class="d-flex bg-light">
-    <div class="container my-4" style="max-width: 300px"></div>
+    <div class="container my-4" style="max-width: 300px">a</div>
     <div class="container my-4" style="max-width: 600px">
         <!-- Add post -->
         <div class="rounded-3 my-4 p-3 bg-white shadow-sm border">
@@ -29,7 +29,7 @@
             <!-- post -->
         </div>
     </div>
-    <div class="container my-4" style="max-width: 300px"></div>
+    <div class="container my-4" style="max-width: 300px">a</div>
 </div>
 <!-- Add Post Modal -->
 <div

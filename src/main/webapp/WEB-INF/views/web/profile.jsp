@@ -165,8 +165,8 @@
                            <!-- Nội dung bài đăng -->
                            <div class="card-body">
                                <p class="text-muted mb-3">` + post.text + `</p>
-                               <div class="d-flex justify-content-center">
-                                   <img src="` + post.photo + `" alt="Post Image" class="img-fluid rounded-3" style="max-height: 350px; object-fit: contain"/>
+                               <div class="d-flex justify-content-center" style="height: 500px; " bis_skin_checked="1">
+                                   <img src="` + post.photo + `" alt="Post Image" class="  rounded-3" style=" width: 100%;object-fit: contain"/>
                                </div>
                            </div>
 
