@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ReportServiceImpl implements IReportSerice {
     public ReportReponse createReport(ReportRequest reportRequest) {
         Post post = postRepository.findById(reportRequest.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+        //User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new RuntimeException("User not found"));
         User user = userRepository.findById(reportRequest.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         ReportReason reportReason = reportReasonRepository.findById(Long.valueOf(reportRequest.getReportReasonId()))

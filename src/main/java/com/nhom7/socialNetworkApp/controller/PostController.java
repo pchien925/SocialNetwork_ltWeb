@@ -14,7 +14,7 @@ public class PostController {
 
     @GetMapping("/my-posts")
     public String getMyPosts() {
-        return "post-details";
+        return "web/my-posts";
     }
 
     @GetMapping("/newsfeed")
@@ -24,11 +24,7 @@ public class PostController {
 
     @GetMapping("/test")
     public String test() {
-        return "web/testPaging";
+        return "web/test-firebase";
     }
 
-    @GetMapping("/add")
-    public String addPost() {
-        return "web/add-post";
-    }
 }

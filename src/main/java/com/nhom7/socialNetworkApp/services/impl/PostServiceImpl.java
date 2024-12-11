@@ -71,7 +71,7 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public PageResponse<PostResponse> getAll(int page, int size, String sortBy) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 
         Page<Post> posts = postRepository.findAll(pageable);
 
@@ -103,7 +103,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public PageResponse<PostResponse> getAllByUser(int page, int size, String sortBy) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 
         Page<Post> posts = postRepository.findByUser_Username(username, pageable);
 
