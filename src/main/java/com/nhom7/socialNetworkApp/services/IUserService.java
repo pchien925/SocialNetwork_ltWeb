@@ -50,5 +50,11 @@ public interface IUserService {
 	Page<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String keyword, Pageable pageable);
 
 	ProfileResponse getProfile(Long userId);
+
+	List<User> findFriendsByUser(Long idUser);
+
+	List<User> findFollowingByUser(Long idUser);
+
+	List<User> findFollowersByUser(Long idUser);
 	
 }

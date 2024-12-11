@@ -1,20 +1,28 @@
 package com.nhom7.socialNetworkApp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +47,8 @@ public class UserController extends HttpServlet {
 	static final long serialVersionUID = 1L;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+    MessageSource messageSource;
 
 	@GetMapping("/signin")
 	public String login() {
@@ -200,4 +210,53 @@ public class UserController extends HttpServlet {
 	    model.addAttribute("userPage", resultPage);
 	    return "web/user-list";
 	}
+	@GetMapping("/get/friends/{idUser}")
+    public ResponseEntity<?> getFriends(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<User> friends = userService.findFriendsByUser(idUser);
+            return new ResponseEntity<>(friends, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+	@GetMapping("/get/followers/{idUser}")
+    public ResponseEntity<?> getFollowers(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<User> followers = userService.findFollowersByUser(idUser);
+            return new ResponseEntity<>(followers, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+	@GetMapping("/get/following/{idUser}")
+    public ResponseEntity<?> getFollowing(@PathVariable Long idUser, Locale locale) {
+        try {
+            List<User> following = userService.findFollowingByUser(idUser);
+            return new ResponseEntity<>(following, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", messageSource.getMessage("error.database", null, locale));
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+	@DeleteMapping("/delete/{idUser}")
+    public ResponseEntity<?> deleteUsers(@PathVariable Long idUser,Locale locale) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            userService.deleteById(idUser);
+            response.put("message", messageSource.getMessage("userController.deletionProcess", null, locale));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("message", response.put("message", messageSource.getMessage("error.databaseOrFile", null, locale)));
+            response.put("error", e.getMessage() + ": " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

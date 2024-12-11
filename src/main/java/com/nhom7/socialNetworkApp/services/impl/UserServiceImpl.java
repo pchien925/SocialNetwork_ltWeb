@@ -234,6 +234,21 @@ public class UserServiceImpl implements IUserService {
 		return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(keyword, keyword,
 				pageable);
 	}
+
+	@Override
+	public List<User> findFriendsByUser(Long idUser) {
+		return userRepository.findFriendsByUser(idUser);
+	}
+
+	@Override
+	public List<User> findFollowersByUser(Long idUser) {
+		return userRepository.findFollowersByUser(idUser);
+	}
+
+	@Override
+	public List<User> findFollowingByUser(Long idUser) {
+		return userRepository.findFollowingByUser(idUser);
+	}
 	
 	
 	

@@ -5,7 +5,9 @@ spring:
     url: jdbc:mysql://localhost:3306/social_network
     username: root
 
+
     password: leloc123
+
 
   jpa:
     hibernate:
@@ -19,7 +21,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: quanlydoannhom6@gmail.com
-    password: bkrh idqc hqea vdav
+    password: bkrhidqchqeavdav
   messages:
     basename: i18n/messages
     fallback-to-system-locale: false
@@ -27,4 +29,3 @@ spring:
 
 server:
   port: 8888
-
