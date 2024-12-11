@@ -3,7 +3,7 @@
 
 
 <div class="d-flex bg-light">
-    <div class="container my-4" style="max-width: 300px">a</div>
+    <jsp:include page="/commons/web/sidebar-left.jsp" />
     <div class="container my-4" style="max-width: 600px">
         <!-- Add post -->
         <div class="rounded-3 my-4 p-3 bg-white shadow-sm border">
@@ -29,7 +29,7 @@
             <!-- post -->
         </div>
     </div>
-    <div class="container my-4" style="max-width: 300px">a</div>
+    <jsp:include page="/commons/web/sidebar-right.jsp" />
 </div>
 <!-- Add Post Modal -->
 <div
@@ -401,10 +401,11 @@
                     <img src="` + post.user.avatar + `" alt="User Avatar" class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover"/>
                     <div>
                         <div class="mb-0">
-                            <a href="" class="text-decoration-none">` + post.user.username + `</a>
+                            <a href="/profile/` + post.user.id + `" class="text-decoration-none">` + post.user.username + `</a>
                         </div>
                         <small class="text-muted">` + post.created + `</small>
                     </div>
+
                     <!-- Nút ba chấm -->
                     <div class="dropdown ms-auto">
     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">

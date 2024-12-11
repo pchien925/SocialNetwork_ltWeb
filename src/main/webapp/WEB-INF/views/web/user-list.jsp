@@ -10,10 +10,7 @@
     </c:if>
 
     <!-- Search Form -->
-    <form action="/searchpaginated" class="d-flex justify-content-center mb-4">
-        <input type="text" name="name" id="name" class="form-control w-50" placeholder="Tìm kiếm bạn bè, nhóm..." />
-        <button class="btn btn-primary ms-2">Tìm kiếm</button>
-    </form>
+
 
     <!-- No users message -->
     <c:if test="${!userPage.hasContent()}">
@@ -38,7 +35,10 @@
                             </c:choose>
 
                             <!-- User Name -->
-                            <h5 class="mt-3">${user.firstName} ${user.lastName}</h5>
+                           <h5 class="mt-3">
+                               <a href="/profile/${user.id}" class="text-decoration-none text-dark">${user.firstName} ${user.lastName}</a>
+                           </h5>
+
                             <p class="text-muted">${user.username}</p>
 
                             <!-- Action Buttons -->

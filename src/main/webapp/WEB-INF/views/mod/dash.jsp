@@ -89,20 +89,20 @@
 
                     // Generate HTML to display the total users
                     let totalUser = `
-                        <div class="icon">👥</div>
+
                         <h3>Total Users</h3>
                         <p class="total" id="total-users">` +totalUsers.totalUsers+ `</p>
                     `;
 
                     let totalPost =
                     `
-                                <div class="icon">📝</div>
+
                                 <h3>Total Posts</h3>
                                 <p class="total" id="total-posts">` +totalUsers.totalPosts+ `</p>
                     `
 
                     let totalReports = `
-                        <div class="icon">📊</div>
+
                         <h3>Total Reports</h3>
                         <p class="total" id="total-reports">` +totalUsers.totalReports+ `</p>
                     `;
