@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -144,6 +145,17 @@ public class UserServiceImpl implements IUserService {
 	        return account.get();
 	    }
 	    return null;
+	}
+	@Override
+	public User getAuthenticatedUser() {
+		// Get the username from the SecurityContext
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		// Retrieve the user by username using the repository
+		Optional<User> user = userRepository.findByUsername(username);
+
+		// If user is found, return it, otherwise handle the case (e.g., throw an exception)
+		return user.orElseThrow(() -> new RuntimeException("User not found"));
 	}
 
 	@Override

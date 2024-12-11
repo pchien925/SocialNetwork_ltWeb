@@ -66,7 +66,15 @@ public class FriendController extends HttpServlet{
 	    // Lấy người gửi từ phiên đăng nhập
 	    //String currentUsername = principal.getName();
 	    //Optional<User> userTransmitterOpt = userService.findByUsername(currentUsername);
-	    Optional<User> userTransmitterOpt = userService.findById(3l);
+
+
+
+
+		User authenticatedUser= userService.getAuthenticatedUser();
+
+		Long userId1 = authenticatedUser.getId();
+
+	    Optional<User> userTransmitterOpt = userService.findById(userId1);
 	    
 	    if (userId == null || userId.isBlank()) {
 	        response.put("status", "error");
