@@ -66,6 +66,19 @@ public class ReportServiceImpl implements IReportSerice {
     }
 
     @Override
+    public long countReports() {
+        return reportRepository.count();
+    }
+
+
+    @Override
+    public void deleteReport(Long reportId) {
+        reportRepository.deleteById(reportId);
+    }
+
+
+
+    @Override
     public List<ReportReponse> getAllReports()
     {
         List<Report> reports = reportRepository.findAll();

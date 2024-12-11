@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashAdminController {
 
-    @GetMapping("/mod/dash")
+    @GetMapping("/admin/dash")
     public String modDash()
     {
         return "mod/dash";

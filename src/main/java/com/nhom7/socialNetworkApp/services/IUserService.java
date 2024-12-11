@@ -13,6 +13,8 @@ import com.nhom7.socialNetworkApp.model.UserModel;
 
 public interface IUserService {
 
+	public User getAuthenticatedUser();
+
 	void deleteById(Long id);
 
 	long count();

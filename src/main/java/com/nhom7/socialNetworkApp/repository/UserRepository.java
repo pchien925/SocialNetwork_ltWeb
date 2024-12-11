@@ -20,6 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	Optional<User> findByUsername(String username);
 	Optional<User> findByEmail(String email);
 	Page<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName, Pageable pageable);
+
 	@Query(value = "SELECT u.* FROM user u " +
             "INNER JOIN friendship f ON u.id = f.user_transmitter_id " +
             "OR u.id = f.user_receiver_id " +

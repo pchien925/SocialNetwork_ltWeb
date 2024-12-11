@@ -14,4 +14,9 @@ public interface IReportSerice {
     public ReportReponse get(Long reportId);
     public List<ReportReponse> getAllReports();
     public Page<ReportReponse> getReportsWithPagination(int page, int size);
+    public long countReports();
+
+    public void deleteReport(Long reportId);
+
+
 }

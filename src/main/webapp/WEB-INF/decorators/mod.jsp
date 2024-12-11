@@ -80,9 +80,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="dash" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                    <a href="users" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Users</a>
                     <a href="report" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Reports</a>
 
                     <div class="nav-item dropdown">
