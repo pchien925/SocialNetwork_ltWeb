@@ -54,12 +54,13 @@
                 <!-- User Information -->
                 <div class="d-flex align-items-center mb-3">
                     <img
+                            id="avatarModal"
                             src="https://cdn2.fptshop.com.vn/small/avatar_trang_1_cd729c335b.jpg"
                             alt="User Avatar"
                             class="rounded-circle"
                             style="width: 40px; height: 40px; object-fit: cover"
                     />
-                    <div class="ms-3"><strong>Phạm Chiến</strong><br /></div>
+                    <div class="ms-3"><strong id="usernameModal"></strong><br /></div>
                 </div>
                 <!-- Text input for post -->
                 <textarea
@@ -931,6 +932,7 @@
     $(window).on('scroll', checkScrollPosition);
 
     $(document).ready(function() {
+
         fetchPosts();
     });
 </script>
