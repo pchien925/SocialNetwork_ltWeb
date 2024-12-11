@@ -3,6 +3,8 @@ package com.nhom7.socialNetworkApp.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.nhom7.socialNetworkApp.dto.request.UpdateUserRequest;
+import com.nhom7.socialNetworkApp.dto.response.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -56,5 +58,8 @@ public interface IUserService {
 	List<User> findFollowingByUser(Long idUser);
 
 	List<User> findFollowersByUser(Long idUser);
-	
+
+	UserResponse getMyProfile();
+
+	UserResponse updateMyProfile(UpdateUserRequest request);
 }

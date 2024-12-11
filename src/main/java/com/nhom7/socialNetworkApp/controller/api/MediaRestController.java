@@ -8,10 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +22,14 @@ public class MediaRestController {
         return ApiResponse.<MediaResponse>builder()
                 .status(HttpStatus.CREATED.value())
                 .data(mediaService.saveMedia(request))
+                .build();
+    }
+
+    @PostMapping("/upload")
+    ApiResponse<MediaResponse> upload(@RequestParam("file") MultipartFile multipartFile){
+        return ApiResponse.<MediaResponse>builder()
+                .status(HttpStatus.CREATED.value())
+                .data(mediaService.upload(multipartFile))
                 .build();
     }
 }
