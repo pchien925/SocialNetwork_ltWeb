@@ -42,6 +42,8 @@ public class PostServiceImpl implements IPostService {
         return postMapper.toPostResponse(post);
     }
 
+
+
     @Override
     public PostResponse get(Long postId) {
         PostResponse response = postMapper.toPostResponse(postRepository.findById(postId).orElseThrow(
@@ -86,6 +88,16 @@ public class PostServiceImpl implements IPostService {
                 .totalPages(posts.getTotalPages())
                 .totalElements(posts.getTotalElements())
                 .build();
+    }
+
+    @Override
+    public long countPosts() {
+        return postRepository.count();
+    }
+
+    @Override
+    public List<Post> getPostsByUserId(Long userId) {
+        return postRepository.findByUserId(userId);
     }
 
     @Override

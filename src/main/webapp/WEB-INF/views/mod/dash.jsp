@@ -62,15 +62,11 @@
         </div>
 
         <div class="card card-posts" id="card-posts">
-            <div class="icon">📝</div>
-            <h3>Total Posts</h3>
-            <p class="total" id="total-posts">5,432</p>
+
         </div>
 
         <div class="card card-reports" id="card-reports">
-            <div class="icon">📊</div>
-            <h3>Total Reports</h3>
-            <p class="total" id="total-reports">120</p>
+
         </div>
 
     </div>
@@ -79,7 +75,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajax({
-                url: "http://localhost:8888/api/mod/dash/count-users", // Full URL to your API
+                url: "http://localhost:8888/api/mod/dash/count", // Full URL to your API
                 method: "GET",
                 dataType: "json", // Ensure the response is expected as JSON
                 success: function(response) {
@@ -98,8 +94,25 @@
                         <p class="total" id="total-users">` +totalUsers.totalUsers+ `</p>
                     `;
 
+                    let totalPost =
+                    `
+                                <div class="icon">📝</div>
+                                <h3>Total Posts</h3>
+                                <p class="total" id="total-posts">` +totalUsers.totalPosts+ `</p>
+                    `
+
+                    let totalReports = `
+                        <div class="icon">📊</div>
+                        <h3>Total Reports</h3>
+                        <p class="total" id="total-reports">` +totalUsers.totalReports+ `</p>
+                    `;
+
+
+
                     // Insert the generated HTML into the #card-users element
                     $("#card-users").html(totalUser);
+                    $("#card-posts").html(totalPost);
+                    $("#card-reports").html(totalReports);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching data: ", error);

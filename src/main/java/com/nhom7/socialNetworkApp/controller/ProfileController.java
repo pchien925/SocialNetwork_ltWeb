@@ -23,20 +23,26 @@ public class ProfileController extends HttpServlet {
 	static final long serialVersionUID = 1L;
 	@Autowired
 	private IUserService userService;
-	
-	@GetMapping("/profile/{id}") 
-	public ModelAndView profile(ModelMap model,
-			@PathVariable("id") Long userId){
-		Optional<User> optUser=userService.findById(userId);
-		ProfileModel profileModel=new ProfileModel();
-		if(optUser.isPresent())
-		{
-			User entity=optUser.get();
+
+	@GetMapping("/profile/{id}")
+	public ModelAndView profile(ModelMap model, @PathVariable("id") Long userId) {
+		Optional<User> optUser = userService.findById(userId);
+		if (optUser.isPresent()) {
+			User entity = optUser.get();
+			ProfileModel profileModel = new ProfileModel();
+			// Sao chép các thuộc tính từ entity sang ProfileModel
 			BeanUtils.copyProperties(entity, profileModel);
-			model.addAttribute("profile",profileModel);	
-			return new ModelAndView("/web/profile",model);
+
+			// Kiểm tra xem giá trị có được sao chép đúng không
+			System.out.println("Profile ID after copy: " + profileModel.getId());
+
+			model.addAttribute("profile", profileModel);
+			return new ModelAndView("/web/profile", model);
+		} else {
+			model.addAttribute("message", "User is not existed!!!");
+			return new ModelAndView("forward:/web/home", model);
 		}
-		model.addAttribute("message","User is not existed!!!");	
-		return new ModelAndView("forward:/web/home",model);
 	}
+
+
 }
