@@ -85,6 +85,22 @@
                     </label>
                     <!-- Display file name (if any) -->
                     <div id="fileName" class="mt-2"></div>
+                    <!-- Display file preview -->
+                    <div id="filePreview" class="file-preview mt-3 text-center">
+                        <img
+                                id="previewImage"
+                                src=""
+                                alt="File Preview"
+                                class="img-fluid"
+                                style="display: none"
+                        />
+                        <video
+                                id="previewVideo"
+                                controls
+                                class="w-100"
+                                style="display: none"
+                        ></video>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -95,7 +111,7 @@
                 >
                     Đóng
                 </button>
-                <button type="button" class="btn btn-primary">Đăng</button>
+                <button type="button" class="btn btn-primary" onclick="savePost()">Đăng</button>
             </div>
         </div>
     </div>
@@ -202,12 +218,108 @@
         </div>
     </div>
 </div>
+<!-- Report Modal-->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Thêm thông tin bổ sung</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="mb-3">
+                        <label for="reportReason" class="form-label">Lý do báo cáo</label>
+                        <input type="text" class="form-control" id="postReportId" readonly>
+                        <input type="text" class="form-control" id="reportReasonId" readonly>
+                        <input type="text" class="form-control" id="reportReason" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="extraInformation" class="form-label">Thông tin bổ sung</label>
+                        <textarea class="form-control" id="extraInformation" rows="3" placeholder="Mô tả thêm về lý do báo cáo..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="submitReport">Gửi báo cáo</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     let likePage = 1;
     let replyPage = 1;
     let commentPage = 1;
     let currentPage = 1;
     let isLoading = false;
+
+    const savePost = async () => {
+        const text = document.querySelector("#createPostModal textarea").value;
+        const file = document.querySelector("#fileInput").files[0];
+        try
+        {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('caption', fileName);
+            const response = await $.ajax({
+                url: "http://localhost:8888/api/medias",
+                method: "POST",
+                data: formData,
+                contentType: false,
+                processData: false
+            });
+            await addPost(text, response.data.url);
+            alert("Đăng bài viết thành công!");
+            location.reload();
+        } catch (error) {
+            alert("Có lỗi xảy ra khi tải ảnh!");
+        }
+    }
+
+    const addPost = async (text, url) => {
+        await $.ajax({
+            url: "http://localhost:8888/api/posts/create",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ text: text,
+                photo: url
+            }),
+            success: function(response) {
+                console.log(response.data);
+            },
+            error: function() {
+                alert("Có lỗi xảy ra khi đăng bài viết!");
+            }
+        });
+    }
+
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const fileName = file.name;
+            document.getElementById("fileName").textContent = fileName;
+
+            // Display preview based on file type
+            const filePreview = document.getElementById("filePreview");
+            const previewImage = document.getElementById("previewImage");
+            const previewVideo = document.getElementById("previewVideo");
+
+            if (file.type.startsWith("image/")) {
+                previewImage.src = URL.createObjectURL(file);
+                console.log(previewImage.src);
+                previewImage.style.display = "block";
+                previewVideo.style.display = "none";
+            } else if (file.type.startsWith("video/")) {
+                previewVideo.src = URL.createObjectURL(file);
+                previewVideo.style.display = "block";
+                previewImage.style.display = "none";
+            }
+
+            filePreview.style.display = "block";
+        }
+
+    };
 
     async function fetchPosts() {
         if (isLoading) return;
@@ -294,15 +406,16 @@
                     </div>
                     <!-- Nút ba chấm -->
                     <div class="dropdown ms-auto">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                            report
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Giả mạo ảnh người khác</a></li>
-                            <li><a class="dropdown-item" href="#">Hình ảnh nhạy cảm</a></li>
-                            <li><a class="dropdown-item" href="#">Nội dung không lành mạnh</a></li>
-                        </ul>
-                    </div>
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+        Báo cáo
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#" onclick="openReportModal('1', 'Nội dung bịa đặt, sai sự thật',` + post.id + `)">Nội dung bịa đặt, sai sự thật</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openReportModal('2', 'Giả mạo người khác',` + post.id + `)">Giả mạo người khác</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openReportModal('3', 'Nội dung chứa hình ảnh nhạy cảm',` + post.id + `)">Nội dung chứa hình ảnh nhạy cảm</a></li>
+<li><a class="dropdown-item" href="#" onclick="openReportModal('4', 'Nội dung xúc phạm người khác',` + post.id + `)">Nội dung xúc phạm người khác</a></li>
+</ul>
+</div>
                 </div>
 
                 <!-- Nội dung bài đăng -->
@@ -530,7 +643,13 @@
             alert("Có lỗi xảy ra khi tải bài viết!");
         }
     }
-
+    function openReportModal(reasonId, reason, postId) {
+        document.getElementById('postReportId').value = postId;
+        document.getElementById('reportReasonId').value = reasonId;
+        document.getElementById('reportReason').value = reason;
+        var reportModal = new bootstrap.Modal(document.getElementById('reportModal'));
+        reportModal.show();
+    }
     async function renderReplies(commentId, replies) {
         const repliesBox = document.querySelector("#repliesBox-" + commentId);
         repliesBox.innerHTML = "";
@@ -744,6 +863,46 @@
             }
         });
     }
+
+    document.getElementById('submitReport').addEventListener('click', function () {
+        const postReportId = document.getElementById('postReportId').value;
+        const reportReasonId = document.getElementById('reportReasonId').value;
+        const reportReason = document.getElementById('reportReason').value;
+        const extraInformation = document.getElementById('extraInformation').value;
+
+        // Send the data to the server (use fetch or AJAX)
+        console.log({postReportId, reportReasonId, reportReason, extraInformation }); // Replace with actual server call
+
+        try {
+            $.ajax({
+                url: "http://localhost:8888/api/mod/reports/create",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    postId : postReportId,
+                    reportReasonId: reportReasonId,
+                    userId: 3,
+                    extraInformation: extraInformation,
+                }),
+                success: function(response) {
+                    console.log(response.data);
+                    alert('Báo cáo thành công!');
+                },
+                error: function(xhr) {
+                    alert('Có lỗi xảy ra khi thêm: ' + xhr.responseText);
+                }
+            });
+        } catch (error) {
+            alert('Có lỗi xảy ra khi bình luận: ' + error);
+        }
+
+        // Close the modal after submission
+        var reportModal = bootstrap.Modal.getInstance(document.getElementById('reportModal'));
+        reportModal.hide();
+
+        // Optionally reset the form
+        document.getElementById('reportForm').reset();
+    });
 
     $('#loadMoreCommentsBtn').on('click', function() {
         console.log('Load more comments');

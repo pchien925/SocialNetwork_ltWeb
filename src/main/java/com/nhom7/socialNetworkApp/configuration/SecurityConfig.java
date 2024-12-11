@@ -31,8 +31,7 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final String[] PUBLIC_MATCHERS = {
             "/",
-            "/api/test",
-            "/signin",
+            "/user/signin",
             "/home",
             "/register"
     };
@@ -56,7 +55,7 @@ public class SecurityConfig {
 //        });
 //        log.info("username: {}", SecurityContextHolder.getContext().getAuthentication().getName());
                 .formLogin(form -> form
-                        .loginPage("/signin")
+                        .loginPage("/user/signin")
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .defaultSuccessUrl("/home")
