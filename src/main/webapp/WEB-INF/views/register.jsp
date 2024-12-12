@@ -32,7 +32,7 @@
             </c:if>
 
             <!-- Form to add user -->
-            <form action="/register" method="post">
+            <form action="/user/register" method="post">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" required>

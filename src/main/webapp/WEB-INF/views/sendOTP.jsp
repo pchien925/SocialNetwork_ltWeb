@@ -78,7 +78,7 @@ a {
 		<div class="content-form-page">
 			<div class="row">
 				<div class="col-md-7 col-sm-7">
-					<form action="/regenerate-otp" method="post">
+					<form action="user/regenerate-otp" method="post">
 
 						<label for="email" class="col-lg-4 control-label">Email</label>
 						<div class="col-lg-8">

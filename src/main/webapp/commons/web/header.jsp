@@ -146,12 +146,23 @@
                      let user = response;
 
                       // Generate HTML to display the total users
-                      let AVT = `
+                      let AVT;
+                      if(user.avatar)
+                      {AVT = `
                           <a href="/profile/` +user.id+ `" title="Profile">
                                             <!-- Profile Image, ID added to update dynamically -->
                                             <img id="profileImg" src="` +user.avatar+ `" alt="Profile" class="profile-img">
                                         </a>
-                      `;
+                      `;}
+                      else
+                    	  {
+                    	   AVT = `
+                              <a href="/profile/` +user.id+ `" title="Profile">
+                                                <!-- Profile Image, ID added to update dynamically -->
+                                                <img id="profileImg" src="/assets/images/users/user-11.png" alt="Profile" class="profile-img">
+                                            </a>
+                          `;
+                    	  }
 
 
 

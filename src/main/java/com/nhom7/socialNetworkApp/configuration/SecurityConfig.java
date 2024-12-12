@@ -32,7 +32,8 @@ public class SecurityConfig {
     private final String[] PUBLIC_MATCHERS = {
             "/",
             "/user/signin",
-            "/register"
+            "/user/register",
+            "user/verify-account"
     };
 
     public UserDetailsService userDetailsService(){

@@ -70,7 +70,7 @@ a {
 
 	<div>
 		<h1>Forgot Your Password?</h1>
-		<form action="/forgotpw" method="post">
+		<form action="user/forgotpw" method="post">
 			<c:if test="${not empty message}">
 				<div
 					class="${message eq 'Error' ? 'error-message' : 'success-message'}">

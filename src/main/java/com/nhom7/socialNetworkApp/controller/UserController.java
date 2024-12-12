@@ -116,8 +116,9 @@ public class UserController extends HttpServlet {
 	        return new ModelAndView("/register", model);
 	    }
 	    String message=userService.register(userModel);
+	    System.out.println(message);
 	    model.addAttribute("message",message);
-	    return new ModelAndView("redirect:/signin", model);
+	    return new ModelAndView("redirect:/user/signin", model);
 	}
 
 	@PostMapping("/regenerate-otp")

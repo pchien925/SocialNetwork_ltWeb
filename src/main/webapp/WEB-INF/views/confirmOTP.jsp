@@ -17,8 +17,8 @@
             ${message}
         </div>
     </c:if>
-    <a href="${pageContext.request.contextPath}/login">Back to Login</a>
+    <a href="${pageContext.request.contextPath}/user/signin">Back to Login</a>
     <br>
-    <a href="${pageContext.request.contextPath}/register">Back to Register</a>
+    <a href="${pageContext.request.contextPath}/user/register">Back to Register</a>
   </body>
 </html>
