@@ -66,7 +66,7 @@
                 <textarea
                         class="form-control"
                         rows="3"
-                        placeholder="Chiến ơi, bạn đang nghĩ gì thế?"
+                        placeholder="bạn đang nghĩ gì thế?"
                         aria-label="Post content"
                 ></textarea>
 

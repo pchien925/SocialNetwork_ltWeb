@@ -5,9 +5,7 @@ spring:
     url: jdbc:mysql://localhost:3306/social_network
     username: root
 
-
-
-    password: leloc123
+    password: 25092004chien
 
 
   jpa:

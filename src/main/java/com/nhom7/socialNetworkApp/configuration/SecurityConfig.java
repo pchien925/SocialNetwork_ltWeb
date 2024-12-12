@@ -32,7 +32,6 @@ public class SecurityConfig {
     private final String[] PUBLIC_MATCHERS = {
             "/",
             "/user/signin",
-            "/home",
             "/register"
     };
 
@@ -45,9 +44,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-//                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-//                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
-                        .anyRequest().permitAll()
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 //        SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(authority -> {
@@ -58,7 +57,7 @@ public class SecurityConfig {
                         .loginPage("/user/signin")
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/posts/newsfeed")
                         .permitAll()
                 )
                 .logout(logout -> logout
