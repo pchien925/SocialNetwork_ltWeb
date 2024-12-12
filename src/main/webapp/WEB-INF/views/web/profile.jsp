@@ -29,6 +29,7 @@
                                                             <i class="bi bi-person-check"></i> Theo dõi
                                                         </button>
                                                     </div>
+                                                    <div class="container mt-3"> <a href="/profile" class="btn btn-primary">EDIT PROFILE</a> </div>
                     </ul>
                 </div>
             </div>
