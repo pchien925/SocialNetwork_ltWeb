@@ -44,5 +44,10 @@ public class ProfileController extends HttpServlet {
 		}
 	}
 
+	@GetMapping("/profile")
+	public String profile() {
+		return "web/updateProfile";
+	}
+
 
 }

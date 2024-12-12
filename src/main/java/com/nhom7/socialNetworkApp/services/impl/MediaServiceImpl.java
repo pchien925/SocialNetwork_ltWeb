@@ -10,6 +10,7 @@ import com.nhom7.socialNetworkApp.repository.MediaRepository;
 import com.nhom7.socialNetworkApp.services.IMediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,6 +26,22 @@ public class MediaServiceImpl implements IMediaService {
     public MediaResponse saveMedia(MediaRequest request) {
         Media media = this.uploadFile(request);
         return mediaMapper.toMediaResponse(mediaRepository.save(media));
+    }
+
+    @Override
+    public MediaResponse upload(MultipartFile multipartFile) {
+        try {
+            Map<?, ?> result = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
+
+            return MediaResponse.builder()
+                    .url(result.get("url").toString())
+                    .mediaKey(result.get("public_id").toString())
+                    .type(result.get("resource_type").toString())
+                    .build();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     private Media uploadFile(MediaRequest request) {
@@ -43,4 +60,6 @@ public class MediaServiceImpl implements IMediaService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
 }
