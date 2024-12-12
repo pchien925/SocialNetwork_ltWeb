@@ -126,7 +126,7 @@
 <div id="content">
       <sitemesh:write property="body"/>
 </div>
-<div id="footer">
+<jsp:include page="/commons/web/footer.jsp" />
 </div>
 </body>
 </html>

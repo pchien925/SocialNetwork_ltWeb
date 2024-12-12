@@ -8,7 +8,7 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header bg-primary text-white text-center">
-                    <h5>Your Profile</h5>
+                    <h5>Profile Details</h5>
                 </div>
                 <div class="card-body text-center">
                     <img src=${profile.avatar} class="img-fluid rounded-circle" alt="Profile Image">
@@ -21,6 +21,14 @@
                         <li class="list-group-item"><strong>Phone:</strong> ${profile.phone}</li>
                         <li class="list-group-item"><strong>Gender:</strong> ${profile.gender}</li>
                         <li class="list-group-item"><strong>DOB:</strong> ${profile.dateOfBirth}</li>
+                        <div class="d-flex justify-content-between mt-3">
+                                                        <button class="btn btn-outline-primary btn-sm" onclick="addFriend(${userId})">
+                                                            <i class="bi bi-person-plus"></i> Kết bạn
+                                                        </button>
+                                                        <button class="btn btn-outline-info btn-sm" onclick="addFollow(${userId})">
+                                                            <i class="bi bi-person-check"></i> Theo dõi
+                                                        </button>
+                                                    </div>
                     </ul>
                 </div>
             </div>
@@ -86,12 +94,7 @@
                     <strong>${profile.firstName}'s Wall</strong>
                 </div>
                 <div class="card-body">
-                    <form>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="What's on your mind?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Post</button>
-                    </form>
+
                     <hr>
                     <!-- Recent Posts -->
                     <div id="list-post">
@@ -720,6 +723,47 @@
 
     })
     });
+
+// Function to extract the userId from the current URL
+function getUserIdFromURL() {
+    const urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 1]; // The userId is the last part of the path
+}
+
+function addFriend() {
+    const userId = getUserIdFromURL();
+    fetch('/user/api/sendFriendRequest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ userId: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.status === 'success' ? data.message : 'Lỗi: ' + data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi thêm bạn.');
+    });
+}
+
+function addFollow() {
+    const userId = getUserIdFromURL();
+    fetch('/user/api/followerships/follow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ userId: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.status === 'success' ? data.message : 'Lỗi: ' + data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi theo dõi.');
+    });
+}
+
 
 </script>
 

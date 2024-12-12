@@ -22,6 +22,11 @@ public class ReportAdminController {
         this.restTemplate = restTemplate;
     }
 
+    @GetMapping("/admin/report")
+    public String adminReport() {
+
+        return "mod/report";  // Corresponds to a Thymeleaf template located in src/main/resources/templates/web/report.html
+    }
     @GetMapping("/mod/report")
     public String modReport() {
 
@@ -36,6 +41,15 @@ public class ReportAdminController {
 
     @GetMapping("/mod/post-report/{reportId}")
     public String viewPostReport(@PathVariable("reportId") String reportId, Model model) {
+        // Lấy dữ liệu bài viết theo postId
+        // Ví dụ:
+        // Post post = postService.getPostById(postId);
+        model.addAttribute("reportId", reportId);  // Thêm postId vào model
+        return "mod/report-post";  // Trả về view (JSP hoặc Thymeleaf)
+
+    }
+    @GetMapping("/admin/post-report/{reportId}")
+    public String viewadminPostReport(@PathVariable("reportId") String reportId, Model model) {
         // Lấy dữ liệu bài viết theo postId
         // Ví dụ:
         // Post post = postService.getPostById(postId);

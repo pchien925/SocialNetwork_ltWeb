@@ -13,7 +13,7 @@ public class UserListAdminController {
 
 
 
-    @GetMapping("/mod/users")
+    @GetMapping("/admin/users")
     public String modUser() {
         return "mod/user-list";
     }

@@ -3,16 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Header</title>
+  <title>UTE SOCIAL</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1030; /* Đặt z-index cao để header nổi trên các phần tử khác */
       background-color: #ffffff;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 0.5rem 1rem;
     }
+    body {
+      padding-top: 70px; /* Thêm khoảng cách để tránh nội dung bị che bởi header */
+    }
+
     .navbar-brand {
       font-size: 1.8rem;
       font-weight: bold;
@@ -60,8 +69,8 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <!-- Logo -->
-      <a class="navbar-brand" href="#">
-        <i class="fab fa-facebook"></i> Facebook
+      <a class="navbar-brand" href="/posts/newsfeed">
+         UTE SOCIAL
       </a>
 
       <!-- Toggler Button for Small Screens -->
@@ -72,9 +81,12 @@
       <!-- Collapsible Content -->
       <div class="collapse navbar-collapse" id="navbarContent">
         <!-- Search Bar -->
-        <div class="d-flex justify-content-center w-100 my-2">
-          <input class="form-control w-50" type="search" placeholder="Search Facebook" aria-label="Search">
-        </div>
+         <form action="/user/searchpaginated" class="d-flex justify-content-center w-100 my-2">
+          <input type="text" name="name" id="name" class="form-control" placeholder="Search Friends By Name">
+                    <button type="submit" class="btn">
+                      <i class="fas fa-search"></i>
+                    </button>
+        </form>
 
         <!-- Navigation Icons -->
         <ul class="navbar-nav d-flex align-items-center ms-auto gap-3">
@@ -92,17 +104,16 @@
               </button>
             </a>
           </li>
+<li class="nav-item position-relative">
+  <a href="/api/messages/" class="btn btn-light position-relative" title="Messenger">
+    <i class="fas fa-comment-dots"></i>
+  </a>
+</li>
 
-          <li class="nav-item position-relative">
-            <button class="btn btn-light position-relative" title="Messenger">
-              <i class="fas fa-comment-dots"></i>
-              <span class="notification-badge">5</span>
-            </button>
-          </li>
           <li class="nav-item position-relative">
             <button class="btn btn-light position-relative" title="Notifications">
               <i class="fas fa-bell"></i>
-              <span class="notification-badge">3</span>
+
             </button>
           </li>
           <li id="navItem" class="nav-item">
