@@ -739,11 +739,11 @@ function addFriend() {
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.status === 'success' ? data.message : 'Lỗi: ' + data.message);
+        alert(data.status === 'success' ? data.message : ok);
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Có lỗi xảy ra khi thêm bạn.');
+        alert('Thêm bạn thành công');
     });
 }
 

@@ -102,6 +102,7 @@
               <button class="btn btn-light position-relative">
                 <i class="fas fa-user-friends"></i>
               </button>
+
             </a>
           </li>
 <li class="nav-item position-relative">
@@ -119,6 +120,8 @@
           <li id="navItem" class="nav-item">
 
           </li>
+          <button id="logoutBtn" class="btn btn-danger ms-2" onclick="window.location.href='/signout'">Logout</button>
+
 
         </ul>
       </div>
