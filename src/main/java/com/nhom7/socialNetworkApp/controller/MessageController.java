@@ -62,6 +62,7 @@ public class MessageController {
     	Long iduser=user.getId();
         Map<String, Object> response = new HashMap<>();
         try {
+        	page=page*10;
             List<Message> messages = messageService.findByUsers(iduser, idFriend, page);
             System.out.println(messages.size());
             Long lastIdMessage = messageService.findLastIdMessageFromUsers(iduser, idFriend);

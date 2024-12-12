@@ -81,6 +81,7 @@
                                                 <img hidden=false src="/assets/images/users/user-6.png" class="messenger-user" alt="Convarsation user image" />
                                                 <a href="#" class="message-profile-name">Select your friend to start a conversation.</a>
                                             </div>
+                                            <button hidden="false" id="load-more-btn" class="load-more-button">Load More</button>
                                             <div class="social-media messenger-top-ricon df-aic">
                                                 <img src="/assets/images/icons/messenger/phone.png" data-toggle="modal" data-target="#callModal" class="msg-top-more-info" alt="Messenger icons">
                                                 <img src="/assets/images/icons/messenger/videocam.png" class="msg-top-more-info" alt="Messenger icons">
@@ -319,6 +320,11 @@ document.addEventListener('click', function(event) {
         if (messageList.hasAttribute('hidden')) {
             messageList.removeAttribute('hidden');
         }
+        var loadMoreBtn = document.getElementById('load-more-btn');
+        if (loadMoreBtn.hasAttribute('hidden')) {
+            loadMoreBtn.removeAttribute('hidden');
+        }
+        currentPage=1;
         loadMessages(userReceiver, currentPage);
     }
 });
