@@ -12,6 +12,9 @@ public class MySiteMeshFilter extends ConfigurableSiteMeshFilter {
 
                 .addDecoratorPath("/mod/*", "/mod.jsp")
 
+                .addDecoratorPath("/user/signin*", "/login.jsp")
+
+                .addDecoratorPath("/user/register*", "/login.jsp")
 
                 .addExcludedPath("/login/*")
                 .addExcludedPath("/api/v1/*")
