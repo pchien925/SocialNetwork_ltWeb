@@ -30,7 +30,7 @@
                                     <img src="${user.avatar}" class="rounded-circle img-fluid" style="max-height: 150px; width: auto;" alt="User Avatar">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="/image?fname=${user.avatar}" class="rounded-circle img-fluid" style="max-height: 150px; width: auto;" alt="User Avatar">
+                                    <img src="/assets/images/users/user-10.png" class="rounded-circle img-fluid" style="max-height: 150px; width: auto;" alt="User Avatar">
                                 </c:otherwise>
                             </c:choose>
 
