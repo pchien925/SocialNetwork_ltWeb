@@ -15,11 +15,13 @@ public interface IPostService {
     String delete(Long postId);
 
     public long countPosts();
-    public List<Post> getPostsByUserId(Long userId);
+//    public List<Post> getPostsByUserId(Long userId);
 
     PostResponse update(Long postId, PostCreationRequest postCreationRequest);
 
     PageResponse<PostResponse> getAll(int page, int size, String sortBy);
+
+    List<PostResponse> getPostsByUserId(Long userId);
 
     PageResponse<PostResponse> getAllByUser(int page, int size, String sortBy);
 }

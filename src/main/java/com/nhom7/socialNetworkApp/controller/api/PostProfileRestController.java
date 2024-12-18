@@ -19,8 +19,8 @@ import java.util.List;
 public class PostProfileRestController {
 
     private final IPostService postService;
-    @GetMapping("/user/{userId}")
-    public List<Post> getPostsByUserId(@PathVariable Long userId) {
-        return postService.getPostsByUserId(userId);
-    }
+//    @GetMapping("/user/{userId}")
+//    public List<Post> getPostsByUserId(@PathVariable Long userId) {
+//        return postService.getPostsByUserId(userId);
+//    }
 }

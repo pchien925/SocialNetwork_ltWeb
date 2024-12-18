@@ -44,5 +44,12 @@ public class NotificationController extends HttpServlet{
 	    List<Notification> notifications = notificationService.findByUserReceiver(optUser.get());
 	    return ResponseEntity.ok(notifications);
 	}
+
+	@GetMapping("/notification/13")
+		public String notification() {
+			return "web/notification";
+		}
+
+
 	
 }

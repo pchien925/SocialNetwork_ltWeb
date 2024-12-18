@@ -5,7 +5,6 @@ import com.nhom7.socialNetworkApp.dto.response.PageResponse;
 import com.nhom7.socialNetworkApp.dto.response.PostResponse;
 import com.nhom7.socialNetworkApp.entity.Post;
 import com.nhom7.socialNetworkApp.mapper.PostMapper;
-import com.nhom7.socialNetworkApp.repository.LikeRepository;
 import com.nhom7.socialNetworkApp.repository.PostRepository;
 import com.nhom7.socialNetworkApp.repository.UserRepository;
 import com.nhom7.socialNetworkApp.services.IPostService;
@@ -96,9 +95,18 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public List<Post> getPostsByUserId(Long userId) {
-        return postRepository.findByUserId(userId);
+    public List<PostResponse> getPostsByUserId(Long userId) {
+        List<PostResponse> responses = postRepository.findByUserId(userId).stream().map(postMapper::toPostResponse).toList();
+        for (PostResponse response : responses) {
+            response.setCreated(dateTimeFormatter.format(response.getCreatedAt()));
+        }
+        return responses;
     }
+
+//    @Override
+//    public List<Post> getPostsByUserId(Long userId) {
+//        return postRepository.findByUserId(userId);
+//    }
 
     @Override
     public PageResponse<PostResponse> getAllByUser(int page, int size, String sortBy) {

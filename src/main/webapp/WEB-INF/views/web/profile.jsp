@@ -124,9 +124,9 @@
        $.ajax({
            url: '/api/posts/user/' + userId,  // Use the extracted userId in the URL
            method: 'GET',
-           success: async function(posts) {
+           success: async function(res) {
                const postContainer = $('#list-post');
-
+                const posts = res.data;
                // Loop through the posts to handle each post
                for (let post of posts) {
                    const postId = post.id;  // Get the postId from the current post

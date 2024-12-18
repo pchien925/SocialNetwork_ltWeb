@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <style>
     .navbar {
       position: fixed;
@@ -111,13 +112,13 @@
   </a>
 </li>
 
-          <li class="nav-item position-relative">
-            <button class="btn btn-light position-relative" title="Notifications">
-              <i class="fas fa-bell"></i>
+            <li class="nav-item position-relative">
+                <a class="btn btn-light position-relative" href="/notification/13" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                </a>
+            </li>
 
-            </button>
-          </li>
-          <li id="navItem" class="nav-item">
+            <li id="navItem" class="nav-item">
 
           </li>
           <button id="logoutBtn" class="btn btn-danger ms-2" onclick="window.location.href='/signout'">Logout</button>

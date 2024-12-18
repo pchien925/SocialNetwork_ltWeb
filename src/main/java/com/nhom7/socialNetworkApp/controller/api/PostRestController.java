@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
@@ -23,6 +25,14 @@ public class PostRestController {
         return ApiResponse.<PostResponse>builder()
                 .status(HttpStatus.CREATED.value())
                 .data(postService.createPost(request))
+                .build();
+    }
+
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<PostResponse>> getPostsByUserId(@PathVariable Long userId){
+        return ApiResponse.<List<PostResponse>>builder()
+                .status(HttpStatus.OK.value())
+                .data(postService.getPostsByUserId(userId))
                 .build();
     }
 
@@ -73,4 +83,5 @@ public class PostRestController {
                 .data(postService.getAllByUser(page, size, sortBy))
                 .build();
     }
+
 }

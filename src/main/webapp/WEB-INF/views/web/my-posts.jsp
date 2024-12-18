@@ -59,7 +59,6 @@
                             class="rounded-circle"
                             style="width: 40px; height: 40px; object-fit: cover"
                     />
-                    <div class="ms-3"><strong>Phạm Chiến</strong><br /></div>
                 </div>
                 <!-- Text input for post -->
                 <textarea
@@ -404,6 +403,7 @@
                         </div>
                         <small class="text-muted">` + post.created + `</small>
                     </div>
+                <button type="button" class="btn btn-outline-danger btn-sm">Xóa</button>
                     <!-- Nút ba chấm -->
                     <div class="dropdown ms-auto">
     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">

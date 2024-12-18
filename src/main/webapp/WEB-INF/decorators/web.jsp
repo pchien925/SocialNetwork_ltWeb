@@ -30,25 +30,24 @@
     <link href='https://cdn.jsdelivr.net/npm/boxicons@1.9.2/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- Styles -->
-    <link href="/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<%--    <link href="/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">--%>
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/components.css" rel="stylesheet">
     <link href="/assets/css/messenger.css" rel="stylesheet">
     <link href="/assets/css/media.css" rel="stylesheet">
-    <script src="/assets/js/load.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<%--    <script src="/assets/js/load.js" type="text/javascript"></script>--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
 
         <!-- Fonts -->
-       
+
         <link href="assets/css/boxicons.min.css" rel="stylesheet">
 
         <link href="assets/css/chat.css" rel="stylesheet">
         <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
         <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js" type="text/javascript"></script>
-       
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -115,8 +114,8 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">--%>
+<%--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>--%>
 
 
 </head>
